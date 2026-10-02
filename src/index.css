@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Rustic Indian color palette */
+    --background: 36 39% 96%;
+    --foreground: 25 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 25 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 25% 15%;
+
+    /* Terracotta primary */
+    --primary: 14 65% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Saffron accent */
+    --saffron: 36 100% 50%;
+    --saffron-foreground: 25 25% 15%;
+
+    /* Curry leaf green */
+    --secondary: 142 35% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Turmeric yellow */
+    --accent: 45 93% 47%;
+    --accent-foreground: 25 25% 15%;
+
+    --muted: 36 33% 85%;
+    --muted-foreground: 25 25% 45%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 36 25% 85%;
+    --input: 36 25% 85%;
+    --ring: 14 65% 50%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(14 65% 50%) 0%, hsl(36 100% 50%) 100%);
+    --gradient-spice: linear-gradient(180deg, hsl(36 39% 96%) 0%, hsl(36 33% 90%) 100%);
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(14 65% 50% / 0.15);
+    --shadow-glow: 0 0 30px hsl(36 100% 50% / 0.25);
+  }
+
+  .dark {
+    --background: 25 25% 12%;
+    --foreground: 36 39% 96%;
+
+    --card: 25 25% 15%;
+    --card-foreground: 36 39% 96%;
+
+    --popover: 25 25% 15%;
+    --popover-foreground: 36 39% 96%;
+
+    --primary: 14 65% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 142 35% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 25 25% 20%;
+    --muted-foreground: 36 33% 65%;
+
+    --accent: 45 93% 47%;
+    --accent-foreground: 25 25% 15%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 25 25% 25%;
+    --input: 25 25% 25%;
+    --ring: 14 65% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile viewport optimization */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific fixes */
+  body {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Parallax and scroll animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-scroll {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.parallax-section {
+  transition: transform 0.1s ease-out;
+}
+
+/* Text shadow for hero */
+.text-shadow {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}

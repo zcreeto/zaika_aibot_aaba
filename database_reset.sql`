@@ -1,0 +1,37 @@
+-- NUCLEAR RESET: Wipes and recreates the chat system with correct RLS and types.
+DROP TABLE IF EXISTS chat_messages;
+DROP TABLE IF EXISTS chat_threads;
+
+-- 1. Create chat_threads table
+CREATE TABLE chat_threads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  title TEXT DEFAULT 'New chat',
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 2. Create chat_messages table
+CREATE TABLE chat_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  thread_id UUID REFERENCES chat_threads(id) ON DELETE CASCADE NOT NULL,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  role TEXT CHECK (role IN ('user', 'assistant')),
+  content TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 3. Enable RLS
+ALTER TABLE chat_threads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
+
+-- 4. Create a single, powerful policy for Threads
+CREATE POLICY "User-managed threads" ON chat_threads 
+  FOR ALL 
+  USING (auth.uid() = user_id) 
+  WITH CHECK (auth.uid() = user_id);
+
+-- 5. Create a single, powerful policy for Messages
+CREATE POLICY "User-managed messages" ON chat_messages 
+  FOR ALL 
+  USING (auth.uid() = user_id) 
+  WITH CHECK (auth.uid() = user_id);
